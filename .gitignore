@@ -1,3 +1,5 @@
+db-data/
+keycloak-data/
 HELP.md
 .gradle
 build/

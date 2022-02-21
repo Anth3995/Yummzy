@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "21000:8080"
+    environment:
+      ISSUER_URI: https://authorization.yummzy.pythontop.xyz/auth/realms/yummzy
+      JWK_SET_URI: https://authorization.yummzy.pythontop.xyz/auth/realms/yummzy/protocol/openid-connect/certs
+      DB_HOST: db
+      DB_PORT: 27017
+      DB_USERNAME: root
+      DB_PASSWORD: pass
+      DB_DATABASE: yummzy
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: yummzy
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    volumes:
+      - ./db-data:/data/db

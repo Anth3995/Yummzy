@@ -1,13 +1,13 @@
-package ua.com.yummy;
+package ua.com.yummzy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class YummyApplicationTests {
+class YummzyApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

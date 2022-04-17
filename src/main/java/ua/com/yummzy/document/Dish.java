@@ -33,7 +33,7 @@ public class Dish {
     @Field(name = "currency")
     private Currency currency;
     @Indexed
-    @Field(name = "restaurant_id")
+    @Field(name = "restaurant_id", targetType = FieldType.OBJECT_ID)
     @DocumentReference(lazy = true)
     private Restaurant restaurant;
     @CreatedDate

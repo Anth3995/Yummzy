@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.yummzy.document.Dish;
 import ua.com.yummzy.dto.DishDto;
+import ua.com.yummzy.dto.RestaurantDto;
 import ua.com.yummzy.exception.NotFoundException;
 import ua.com.yummzy.mapper.DishMapper;
+import ua.com.yummzy.mapper.RestaurantsMapper;
 import ua.com.yummzy.repository.DishRepository;
 import ua.com.yummzy.service.DishService;
 
@@ -18,13 +20,17 @@ import java.util.stream.Collectors;
 public class DefaultDishService implements DishService {
     private final DishRepository dishRepository;
     private final DishMapper dishMapper;
+    private final RestaurantsMapper restaurantsMapper;
 
     @Override
     @Transactional(readOnly = true)
     public DishDto getById(String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Dish with id " + id + " not found!"));
-        return dishMapper.toDto(dish);
+        DishDto dishDto = dishMapper.toDto(dish);
+        RestaurantDto restaurantDto = restaurantsMapper.toDto(dish.getRestaurant());
+        dishDto.setRestaurantDto(restaurantDto);
+        return dishDto;
     }
 
     @Override

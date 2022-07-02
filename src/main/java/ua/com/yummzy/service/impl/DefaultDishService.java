@@ -2,7 +2,6 @@ package ua.com.yummzy.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.yummzy.document.Dish;
 import ua.com.yummzy.dto.DishDto;
 import ua.com.yummzy.dto.RestaurantDto;
@@ -23,11 +22,13 @@ public class DefaultDishService implements DishService {
     private final RestaurantsMapper restaurantsMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public DishDto getById(String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Dish with id " + id + " not found!"));
         DishDto dishDto = dishMapper.toDto(dish);
+        if (dish.getRestaurant() == null) {
+            return dishDto;
+        }
         RestaurantDto restaurantDto = restaurantsMapper.toDto(dish.getRestaurant());
         dishDto.setRestaurantDto(restaurantDto);
         return dishDto;

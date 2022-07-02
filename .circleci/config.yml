@@ -1,7 +1,6 @@
 version: 2.1
 jobs:
-  # running commands on a basic image
-  Hello-World:
+  Build:
     docker:
       - image: cimg/base:2021.04
     steps:
@@ -39,3 +38,4 @@ workflows:
       - Using-Node:
           requires:
             - Fetch-Code
+            - 
